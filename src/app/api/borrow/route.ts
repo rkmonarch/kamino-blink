@@ -8,12 +8,55 @@ import {
 import { Connection, PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
 import {
+  ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
   ACTIONS_CORS_HEADERS,
 } from "@solana/actions";
 import { loadReserveData } from "@/utils/helpers";
 import { USDC_MINT } from "@/utils/constants";
+
+export const GET = async () => {
+  const payload: ActionGetResponse = {
+    icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
+    description:
+      "Borrow tokens from kamino",
+    title: `Borrow Tokens`,
+    label: "Borrow",
+    links: {
+      actions: [
+        {
+          href: "/api/borrow?amount={amount}&token={token}",
+          label: "Submit",
+          parameters: [
+            {
+              name: "token",
+              label: "select token",
+              type: "select",
+              options: [{
+                label: "USDC",
+                value: "USDC"
+              },
+              {
+                label: "USDT",
+                value: "USDT"
+              }]
+            },
+            {
+              name: "amount",
+              label: "Enter amount",
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+
+  return Response.json(payload, {
+    headers: ACTIONS_CORS_HEADERS,
+  });
+};
 
 export async function POST(req: NextRequest) {
   let user: PublicKey;

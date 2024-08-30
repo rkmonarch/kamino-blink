@@ -9,8 +9,8 @@ export const GET = async () => {
         apiPath: "/api/profile",
       },
       {
-        pathPattern: "/requests",
-        apiPath: "/api/request",
+        pathPattern: "/deposit",
+        apiPath: "/api/deposit",
       },
     ],
   };
