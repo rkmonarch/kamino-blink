@@ -1,19 +1,61 @@
-import { NextRequest, NextResponse } from "next/server";
+import { USDC_MINT } from "@/utils/constants";
+import { loadReserveData } from "@/utils/helpers";
 import {
-  buildVersionedTransaction,
   KaminoAction,
   PROGRAM_ID,
   VanillaObligation,
+  buildVersionedTransaction,
 } from "@kamino-finance/klend-sdk";
+import {
+  ACTIONS_CORS_HEADERS,
+  ActionGetResponse,
+  ActionPostRequest,
+  ActionPostResponse
+} from "@solana/actions";
 import { Connection, PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
-import {
-  ActionPostRequest,
-  ActionPostResponse,
-  ACTIONS_CORS_HEADERS,
-} from "@solana/actions";
-import { loadReserveData } from "@/utils/helpers";
-import { USDC_MINT } from "@/utils/constants";
+import { NextRequest, NextResponse } from "next/server";
+
+export const GET = async () => {
+  const payload: ActionGetResponse = {
+    icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
+    description:
+      "Deposit tokens into kamino",
+    title: `Deposit Tokens`,
+    label: "Deposit",
+    links: {
+      actions: [
+        {
+          href: "/api/deposit?amount={amount}&token={token}",
+          label: "Submit",
+          parameters: [
+            {
+              name: "token",
+              label: "select token",
+              type: "select",
+              options: [{
+                label: "USDC",
+                value: "USDC"
+              },
+              {
+                label: "USDT",
+                value: "USDT"
+              }]
+            },
+            {
+              name: "amount",
+              label: "Enter amount",
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+  return Response.json(payload, {
+    headers: ACTIONS_CORS_HEADERS,
+  });
+};
 
 export async function POST(req: NextRequest) {
   let user: PublicKey;
@@ -31,6 +73,7 @@ export async function POST(req: NextRequest) {
   const api = `https://mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_API_KEY}`;
 
   const connection = new Connection(api);
+
   const { market, reserve: usdcReserve } = await loadReserveData({
     connection,
     marketPubkey: new PublicKey("7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF"), // main market address. Defaults to 'Main' market
