@@ -26,18 +26,10 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@types/node": "^20.16.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "eslint": "^8.57.0",
-=======
-    "@types/bn.js": "^5.1.5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
->>>>>>> 58afc6cf5c407b89e6b139f0a97d35cba0394a50
     "eslint-config-next": "14.2.6",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.10",
