@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     mintPubkey: USDC_MINT,
   });
 
-  const depositAction = await KaminoAction.buildDepositTxns(
+  const depositAction = await KaminoAction.buildBorrowTxns(
     market,
     new BN(1_000_000),
     usdcReserve.getLiquidityMint(),
@@ -46,6 +46,8 @@ export async function POST(req: NextRequest) {
     300_000,
     true
   );
+
+  console.log("depositAction", depositAction);
 
   // eg This user has deposited jupSOL and borrowed PYUSD.
   // He is trying to deposit USDC into the reserve.
