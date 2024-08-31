@@ -79,5 +79,7 @@ export async function POST(req: NextRequest) {
     },
   };
 
-  return NextResponse.json(payload);
+  return Response.json(payload, {
+    headers: ACTIONS_CORS_HEADERS,
+  });
 }
