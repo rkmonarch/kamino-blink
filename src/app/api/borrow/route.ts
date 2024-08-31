@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const api = `https://mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_API_KEY}`;
+  const api = `https://mainnet.helius-rpc.com/?api-key=${process.env.HELIUS_KEY}`;
 
   const connection = new Connection(api);
   const { market, reserve: usdcReserve } = await loadReserveData({
