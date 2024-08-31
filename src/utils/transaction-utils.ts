@@ -7,40 +7,32 @@ const SOURCE_TO_FEE_BPS = {
   MAGICEDEN_V2: 250,
   default: 150,
 };
+const TENSOR_FEE_BPS = 150;
 
 export async function createBuyNftTransaction(
-  mint: Mint,
-  buyerAddress: string
+  mint: string,
+  buyerAddress: string,
+  ownerAddress: string,
+  royaltyBps: number,
+  price: string
 ): Promise<string | null> {
   const blockhash = await connection
     .getLatestBlockhash({ commitment: "max" })
-    .then((res: any) => res.blockhash);
+    .then((res) => res.blockhash);
 
-  const totalPrice = getTotalPrice(
-    parseInt(mint.listing.price, 10),
-    mint.royaltyBps,
-    mint.listing.source
-  );
+  const totalPrice = getTotalPrice(parseInt(price, 10), royaltyBps);
   return getNftBuyTransaction({
-    mintAddress: mint.mint,
-    ownerAddress: mint.listing.seller,
+    mintAddress: mint,
+    ownerAddress: ownerAddress,
     buyerAddress: buyerAddress,
     price: totalPrice,
     latestBlockhash: blockhash,
   });
 }
 
-export function getTotalPrice(
-  price: number,
-  royaltyBps: number,
-  source: keyof typeof SOURCE_TO_FEE_BPS | string
-): number {
-  const MP_FEE_BPS =
-    source in SOURCE_TO_FEE_BPS
-      ? SOURCE_TO_FEE_BPS[source as keyof typeof SOURCE_TO_FEE_BPS]
-      : SOURCE_TO_FEE_BPS["default"];
+function getTotalPrice(price: number, royaltyBps: number): number {
   const royalty = (price * royaltyBps) / 10000;
-  const marketPlaceFee = (price * MP_FEE_BPS) / 10000;
+  const marketPlaceFee = (price * TENSOR_FEE_BPS) / 10000;
 
   return price + royalty + marketPlaceFee;
 }

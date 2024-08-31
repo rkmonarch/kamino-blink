@@ -155,11 +155,9 @@ const TENSOR_API_KEY = `${process.env.TENSOR_KEY}`;
 
 export async function getNftInfo(
   mintAddress: string
-): Promise<TensorNft | null> {
-  console.log("mintAddress", mintAddress);
-  console.log("TENSOR_API_KEY", TENSOR_API_KEY);
+): Promise<TensorNft[] | null> {
   try {
-    const response = await fetch(`${baseUrl}/mint?mint=${mintAddress}`, {
+    const response = await fetch(`${baseUrl}/mint?mints=${mintAddress}`, {
       method: "GET",
       headers: {
         accept: "application/json",
