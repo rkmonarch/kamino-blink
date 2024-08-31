@@ -120,9 +120,9 @@ export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
     description:
-      "Repay",
-    title: `Repay`,
-    label: "Repay",
+      "Buy .bonk domains with your SOL, if the domain is available you can buy it directly from alldomains.id or if it's taken but not listed you can buy it from tensor.",
+    title: `Buy .bonk domains`,
+    label: "Buy .bonk domains",
     links: {
       actions: [
         {
@@ -131,14 +131,13 @@ export const GET = async () => {
           parameters: [
             {
               name: "handle",
-              label: "Enter domain",
+              label: "Enter domain name example fitzy without .bonk",
             },
           ],
         },
       ],
     },
   };
-
 
   return Response.json(payload, {
     headers: ACTIONS_CORS_HEADERS,
