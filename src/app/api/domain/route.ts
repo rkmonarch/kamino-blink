@@ -131,7 +131,7 @@ export const GET = async () => {
           parameters: [
             {
               name: "handle",
-              label: "Enter domain name example fitzy without .bonk",
+              label: "Enter domain name ( without .bonk )",
             },
           ],
         },
