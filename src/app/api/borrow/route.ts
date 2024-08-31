@@ -21,27 +21,14 @@ export const GET = async () => {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
     description:
       "Borrow tokens from kamino",
-    title: `Borrow Tokens`,
+    title: `Borrow USDC`,
     label: "Borrow",
     links: {
       actions: [
         {
-          href: "/api/borrow?amount={amount}&token={token}",
-          label: "Submit",
+          href: "/api/borrow?amount={amount}",
+          label: "Borrow",
           parameters: [
-            {
-              name: "token",
-              label: "select token",
-              type: "select",
-              options: [{
-                label: "USDC",
-                value: "USDC"
-              },
-              {
-                label: "USDT",
-                value: "USDT"
-              }]
-            },
             {
               name: "amount",
               label: "Enter amount",
@@ -61,6 +48,14 @@ export const GET = async () => {
 export async function POST(req: NextRequest) {
   let user: PublicKey;
   const body: ActionPostRequest = await req.json();
+  const amount = new URL(req.url).searchParams.get("amount");
+
+  if (!amount) {
+    return new Response("Invalid amount provided", {
+      status: 400,
+      headers: ACTIONS_CORS_HEADERS,
+    });
+  }
 
   try {
     user = new PublicKey(body.account);
@@ -82,7 +77,7 @@ export async function POST(req: NextRequest) {
 
   const depositAction = await KaminoAction.buildBorrowTxns(
     market,
-    new BN(1_000_000),
+    new BN(parseInt(amount) * Math.pow(10, 6)),
     usdcReserve.getLiquidityMint(),
     user,
     new VanillaObligation(PROGRAM_ID),
@@ -129,6 +124,31 @@ export async function POST(req: NextRequest) {
   const payload: ActionPostResponse = {
     transaction: Buffer.from(tx.serialize()).toString("base64"),
     message: "Deposit USDC into the reserve",
+    links: {
+      next: {
+        action: {
+          icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
+          description:
+            "Withdraw & RePay",
+          title: `Withdraw & RePay`,
+          label: "Withdraw & RePay",
+          type: "action",
+          links: {
+            actions: [
+              {
+                href: "/api/withdraw",
+                label: "Withdraw",
+              },
+              {
+                href: "/api/repay",
+                label: "Repay",
+              },
+            ],
+          },
+        },
+        type: "inline"
+      }
+    }
   };
 
   return NextResponse.json(payload);
