@@ -118,7 +118,7 @@ async function createAndSendTransaction(
 
 export const GET = async () => {
   const payload: ActionGetResponse = {
-    icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
+    icon: "https://blinkathon-phi.vercel.app/domain.png",
     description:
       "Buy .bonk domains with your SOL, if the domain is available you can buy it directly from alldomains.id or if it's taken but not listed you can buy it from tensor.",
     title: `Buy .bonk domains`,
