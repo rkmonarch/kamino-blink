@@ -1,5 +1,6 @@
 import {
   ActionError,
+  ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
   ACTIONS_CORS_HEADERS,
@@ -114,6 +115,35 @@ async function createAndSendTransaction(
     return null;
   }
 }
+
+export const GET = async () => {
+  const payload: ActionGetResponse = {
+    icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
+    description:
+      "Repay",
+    title: `Repay`,
+    label: "Repay",
+    links: {
+      actions: [
+        {
+          href: "/api/domain?handle={handle}",
+          label: "Submit",
+          parameters: [
+            {
+              name: "handle",
+              label: "Enter domain",
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+
+  return Response.json(payload, {
+    headers: ACTIONS_CORS_HEADERS,
+  });
+};
 
 export async function POST(req: NextRequest) {
   try {
