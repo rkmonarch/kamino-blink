@@ -119,36 +119,9 @@ export async function POST(req: NextRequest) {
     ...depositAction.cleanupIxs,
   ]);
 
-  console.log("tx", tx);
-
   const payload: ActionPostResponse = {
     transaction: Buffer.from(tx.serialize()).toString("base64"),
     message: "Deposit USDC into the reserve",
-    links: {
-      next: {
-        action: {
-          icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-          description:
-            "Withdraw & RePay",
-          title: `Withdraw & RePay`,
-          label: "Withdraw & RePay",
-          type: "action",
-          links: {
-            actions: [
-              {
-                href: "/api/withdraw",
-                label: "Withdraw",
-              },
-              {
-                href: "/api/repay",
-                label: "Repay",
-              },
-            ],
-          },
-        },
-        type: "inline"
-      }
-    }
   };
 
   return NextResponse.json(payload);

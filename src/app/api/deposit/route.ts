@@ -125,33 +125,6 @@ export async function POST(req: NextRequest) {
   const payload: ActionPostResponse = {
     transaction: Buffer.from(tx.serialize()).toString("base64"),
     message: "Deposit USDC into the reserve",
-    links: {
-      next: {
-        action: {
-          icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-          description:
-            "Borrow",
-          title: `Borrow USDC`,
-          label: "Borrow USDC",
-          type: "action",
-          links: {
-            actions: [
-              {
-                href: "/api/borrow?amount={amount}",
-                label: "Borrow",
-                parameters: [
-                  {
-                    name: "amount",
-                    label: "Enter amount",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        type: "inline"
-      }
-    }
   };
 
   return NextResponse.json(payload);
