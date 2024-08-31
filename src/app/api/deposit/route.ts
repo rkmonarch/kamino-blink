@@ -11,6 +11,7 @@ import {
   ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
+  ActionType,
 } from "@solana/actions";
 import { Connection, PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
@@ -20,29 +21,14 @@ export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
     description: "Deposit tokens into kamino",
-    title: `Deposit Tokens`,
+    title: `Deposit USDC`,
     label: "Deposit",
     links: {
       actions: [
         {
-          href: "/api/deposit?amount={amount}&token={token}",
-          label: "Submit",
+          href: "/api/deposit?amount={amount}",
+          label: "Deposit",
           parameters: [
-            {
-              name: "token",
-              label: "select token",
-              type: "select",
-              options: [
-                {
-                  label: "USDC",
-                  value: "USDC",
-                },
-                {
-                  label: "USDT",
-                  value: "USDT",
-                },
-              ],
-            },
             {
               name: "amount",
               label: "Enter amount",
@@ -63,6 +49,14 @@ export const OPTIONS = GET;
 export async function POST(req: NextRequest) {
   let user: PublicKey;
   const body: ActionPostRequest = await req.json();
+  const amount = new URL(req.url).searchParams.get("amount");
+
+  if (!amount) {
+    return new Response("Invalid amount provided", {
+      status: 400,
+      headers: ACTIONS_CORS_HEADERS,
+    });
+  }
 
   try {
     user = new PublicKey(body.account);
@@ -85,7 +79,7 @@ export async function POST(req: NextRequest) {
 
   const depositAction = await KaminoAction.buildDepositTxns(
     market,
-    new BN(1_000_000),
+    new BN(parseInt(amount) * Math.pow(10, 6)),
     usdcReserve.getLiquidityMint(),
     user,
     new VanillaObligation(PROGRAM_ID),
