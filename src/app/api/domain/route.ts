@@ -144,6 +144,8 @@ export const GET = async () => {
   });
 };
 
+export const OPTIONS = GET;
+
 export async function POST(req: NextRequest) {
   try {
     const body: ActionPostRequest = await req.json();

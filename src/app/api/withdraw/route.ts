@@ -19,8 +19,7 @@ import { USDC_MINT } from "@/utils/constants";
 export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-    description:
-      "Withdraw your tokens",
+    description: "Withdraw your tokens",
     title: `Withdraw`,
     label: "Withdraw",
     links: {
@@ -33,14 +32,16 @@ export const GET = async () => {
               name: "token",
               label: "select token",
               type: "select",
-              options: [{
-                label: "USDC",
-                value: "USDC"
-              },
-              {
-                label: "USDT",
-                value: "USDT"
-              }]
+              options: [
+                {
+                  label: "USDC",
+                  value: "USDC",
+                },
+                {
+                  label: "USDT",
+                  value: "USDT",
+                },
+              ],
             },
             {
               name: "amount",
@@ -56,6 +57,8 @@ export const GET = async () => {
     headers: ACTIONS_CORS_HEADERS,
   });
 };
+
+export const OPTIONS = GET;
 
 export async function POST(req: NextRequest) {
   let user: PublicKey;

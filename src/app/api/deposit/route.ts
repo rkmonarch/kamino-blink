@@ -10,7 +10,7 @@ import {
   ACTIONS_CORS_HEADERS,
   ActionGetResponse,
   ActionPostRequest,
-  ActionPostResponse
+  ActionPostResponse,
 } from "@solana/actions";
 import { Connection, PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
@@ -19,8 +19,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-    description:
-      "Deposit tokens into kamino",
+    description: "Deposit tokens into kamino",
     title: `Deposit Tokens`,
     label: "Deposit",
     links: {
@@ -33,14 +32,16 @@ export const GET = async () => {
               name: "token",
               label: "select token",
               type: "select",
-              options: [{
-                label: "USDC",
-                value: "USDC"
-              },
-              {
-                label: "USDT",
-                value: "USDT"
-              }]
+              options: [
+                {
+                  label: "USDC",
+                  value: "USDC",
+                },
+                {
+                  label: "USDT",
+                  value: "USDT",
+                },
+              ],
             },
             {
               name: "amount",
@@ -56,6 +57,8 @@ export const GET = async () => {
     headers: ACTIONS_CORS_HEADERS,
   });
 };
+
+export const OPTIONS = GET;
 
 export async function POST(req: NextRequest) {
   let user: PublicKey;
