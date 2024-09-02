@@ -1,9 +1,11 @@
+import { connection } from "@/utils/connection";
 import {
   ACTIONS_CORS_HEADERS,
   ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
 } from "@solana/actions";
+import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async () => {
@@ -42,8 +44,38 @@ export const GET = async () => {
 export async function POST(req: NextRequest) {
   const body: ActionPostRequest = await req.json();
 
+  const senderPublicKey = new PublicKey(body.account);
+
+  const recipientPublicKey = new PublicKey(
+    "AwZCvM6NhcVx9y2vnyuHHnTMZYULsvLZMky5xDoBYPS2"
+  );
+
+  const transaction = new Transaction();
+
+  const amountInLamports = 1_000_000;
+
+  transaction.add(
+    SystemProgram.transfer({
+      fromPubkey: senderPublicKey,
+      toPubkey: recipientPublicKey,
+      lamports: amountInLamports,
+    })
+  );
+
+  const blockhash = await connection.getLatestBlockhash();
+
+  transaction.recentBlockhash = blockhash.blockhash;
+
+  transaction.feePayer = senderPublicKey;
+
+  const serializedTransaction = transaction
+    .serialize({
+      requireAllSignatures: false,
+    })
+    .toString("base64");
+
   const payload: ActionPostResponse = {
-    transaction: "",
+    transaction: serializedTransaction,
     message: "Success",
     links: {
       next: {
@@ -55,22 +87,10 @@ export async function POST(req: NextRequest) {
           type: "action",
           links: {
             actions: [
-              {
-                href: "/api/kamino",
-                label: "Deposit",
-              },
-              {
-                href: "/api/kamino",
-                label: "Borrow",
-              },
-              {
-                href: "/api/kamino",
-                label: "Repay",
-              },
-              {
-                href: "/api/kamino",
-                label: "Withdraw",
-              },
+              { href: "/api/kamino", label: "Deposit" },
+              { href: "/api/kamino", label: "Borrow" },
+              { href: "/api/kamino", label: "Repay" },
+              { href: "/api/kamino", label: "Withdraw" },
             ],
           },
         },
