@@ -20,7 +20,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-    description: "Deposit tokens into kamino",
+    description: "Direct lend your USDC into Kamino and earn.",
     title: `Deposit USDC`,
     label: "Deposit",
     links: {

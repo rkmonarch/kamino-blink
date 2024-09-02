@@ -19,7 +19,7 @@ import { USDC_MINT } from "@/utils/constants";
 export const GET = async () => {
   const payload: ActionGetResponse = {
     icon: "https://pbs.twimg.com/profile_images/1800478667040002048/8bUg0jRH_400x400.jpg",
-    description: "Borrow tokens from kamino",
+    description: "Direct borrow USDC from Kamino.",
     title: `Borrow USDC`,
     label: "Borrow",
     links: {
