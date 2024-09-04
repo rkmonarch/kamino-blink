@@ -17,19 +17,19 @@ export const GET = async () => {
     links: {
       actions: [
         {
-          href: "/api/kamino",
+          href: "/api/deposit",
           label: "Deposit",
         },
         {
-          href: "/api/kamino",
+          href: "/api/borrow",
           label: "Borrow",
         },
         {
-          href: "/api/kamino",
+          href: "/api/repay",
           label: "Repay",
         },
         {
-          href: "/api/kamino",
+          href: "/api/withdraw",
           label: "Withdraw",
         },
       ],
@@ -87,10 +87,10 @@ export async function POST(req: NextRequest) {
           type: "action",
           links: {
             actions: [
-              { href: "/api/kamino", label: "Deposit" },
-              { href: "/api/kamino", label: "Borrow" },
-              { href: "/api/kamino", label: "Repay" },
-              { href: "/api/kamino", label: "Withdraw" },
+              { href: "/api/deposit", label: "Deposit" },
+              { href: "/api/borrow", label: "Borrow" },
+              { href: "/api/repay", label: "Repay" },
+              { href: "/api/withdraw", label: "Withdraw" },
             ],
           },
         },
