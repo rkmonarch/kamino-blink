@@ -25,24 +25,9 @@ export const GET = async () => {
     links: {
       actions: [
         {
-          href: "/api/withdraw?amount={amount}&token={token}",
+          href: "/api/withdraw?amount={amount}",
           label: "Submit",
           parameters: [
-            {
-              name: "token",
-              label: "select token",
-              type: "select",
-              options: [
-                {
-                  label: "USDC",
-                  value: "USDC",
-                },
-                {
-                  label: "USDT",
-                  value: "USDT",
-                },
-              ],
-            },
             {
               name: "amount",
               label: "Enter amount",
